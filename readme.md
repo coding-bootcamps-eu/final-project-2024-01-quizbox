@@ -1,49 +1,35 @@
-Quizbox
+# QuizBox
 
-You will create a Quizbox App with a tech stack of your choice.
+This template should help get you started developing with Vue 3 in Vite.
 
-The Quizbox helps students to question whether the topics of the bootcamp are understood and learned.
+## Recommended IDE Setup
 
-The Quiz Box provides questions on the different topics of the Bootcamp.
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-Features
+## Customize configuration
 
-Quizbox Session
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-To start a Quiz Box session, at least one topic and the number of questions to be asked must be selected
+## Project Setup
 
-Number of Questions
+```sh
+npm install
+```
 
-The number of total questions for a quizbox session needs to be selected.
+### Compile and Hot-Reload for Development
 
-The number of questions can either be 10, 20 or 30.
+```sh
+npm run dev
+```
 
-Question Randomness
+### Compile and Minify for Production
 
-If more than one topic is selected, an equal number (if possible) of randomly selected questions from all topics should be used.
+```sh
+npm run build
+```
 
-# Example 1
+### Lint with [ESLint](https://eslint.org/)
 
-Number of questions: 10
-Number of topics: 2
-Number of questions per topic: 5
-
-# Example 2
-
-Number of questions: 10
-Number of topics: 3
-Number of questions per topic: 3 questions for two topics, 4 questions for one topic
-
-Browse Questions
-
-Besides a quizbox session it is also possible to browse all questions from each category.
-
-General Technical Requirements
-
-Implement the Quizbox with the general requirements in mind.
-
-Implement the Quizbox with the tech stack of your choice
-Use semantic HTML
-Implement the given design
-Cover your app with automated tests
-Deploy the Quizbox on Netlify
+```sh
+npm run lint
+```
