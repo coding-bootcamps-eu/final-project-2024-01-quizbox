@@ -1,16 +1,43 @@
 <template>
-  <main>
-    <h1>QuizBox</h1>
-    <div class="top">Quiz-Boxes</div>
-    <div class="category">Category</div>
-    <div class="category" id="webDev">Web Dev Foundation</div>
-    <div class="category" id="coding">Coding Foundation</div>
-    <div class="category" id="webApp">Web Apps Foundation</div>
-    <div class="category" id="backends">Restful Backends</div>
-    <div class="category" id="vue">Web Apps with VueJS</div>
-    <button class="begin">Start!</button>
-  </main>
+  <div>
+    <h1>Quizbox</h1>
+    <button @click="getQuestions">Show Questions</button>
+    <hr />
+    <div v-if="questions.length > 0">
+      <!--Wenn question grösser als 0 dann render-->
+      <div v-for="q in questions" :key="q.id">
+        <!--v-for Schleife für questions-->
+        <h2>{{ q.title }} - {{ q.question }}</h2>
+        <p>{{ q.id }} - {{ q.text }}</p>
+      </div>
+    </div>
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      questions: []
+    }
+  },
+  methods: {
+    async getQuestions() {
+      try {
+        const response = await fetch('http://localhost:3000/groups')
+        if (!response.ok) {
+          throw new Error('Failed to fetch questions')
+        }
+        const data = await response.json()
+        this.questions = data
+        console.log('Questions fetched:', data)
+      } catch (error) {
+        console.error('Error fetching questions:', error)
+      }
+    }
+  }
+}
+</script>
 
 <style>
 @import url('@/assets/global.css');
@@ -22,7 +49,7 @@
 }
 
 body {
-  background-color: black;
+  background-color: green;
   color: whitesmoke;
 }
 </style>
