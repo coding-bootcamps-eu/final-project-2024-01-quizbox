@@ -6,9 +6,9 @@
     <div v-if="questions.length > 0">
       <!--Wenn question grösser als 0 dann render-->
       <div v-for="q in questions" :key="q.id">
-        <!--v-for Schleife für questions-->
-        <h2>{{ q.title }} - {{ q.question }}</h2>
-        <p>{{ q.id }} - {{ q.text }}</p>
+        <!--v-for Schleife für category-->
+        <h2>{{ q.title }}</h2>
+        <p>{{ q.id }}</p>
       </div>
     </div>
   </div>
