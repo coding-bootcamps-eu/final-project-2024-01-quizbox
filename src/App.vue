@@ -95,29 +95,6 @@ export default {
       } catch (error) {
         console.error('Error fetching Basic JS questions:', error)
       }
-    },
-    showQuestion(index, title) {
-      this.currentQuestionIndex = index
-      this.currentQuestion = this.questions[index]
-      console.log('Showing question:', title)
-    },
-    nextQuestion() {
-      if (this.currentQuestionIndex < this.questions.length - 1) {
-        this.currentQuestionIndex++
-        this.currentQuestion = this.questions[this.currentQuestionIndex]
-        console.log('Showing next question:', this.currentQuestion.title)
-      } else {
-        console.log('No more questions')
-      }
-    },
-    prevQuestion() {
-      if (this.currentQuestionIndex > 0) {
-        this.currentQuestionIndex--
-        this.currentQuestion = this.questions[this.currentQuestionIndex]
-        console.log('Showing previous question:', this.currentQuestion.title)
-      } else {
-        console.log('No previous questions')
-      }
     }
   }
 }
