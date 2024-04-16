@@ -5,25 +5,35 @@
     <hr />
     <div v-if="questions.length > 0">
       <!--Wenn question grösser als 0 dann render-->
-      <div v-for="q in questions" :key="q.id">
+      <div v-for="(q, index) in questions" :key="q.id">
         <!--v-for Schleife für categorie-->
-        <button @click="showQuestion(q.title)">{{ q.title }}</button>
+        <button @click="showQuestion(index, q.title)">{{ q.title }}</button>
         <!--Button für categorie auswahl-->
       </div>
     </div>
-    <div v-if="basicJSQuestions.length > 0">
+    <div v-if="basicJSQuestions && basicJSQuestions.length > 0">
       <h2>Basic JS Questions</h2>
-      <div v-for="q in basicJSQuestions" :key="q.id">
-        <button @click="BasicJS(q.title)">{{ q.title }}</button>
+      <div v-for="(q, index) in basicJSQuestions" :key="q.id">
+        <button @click="basicJSQuestion(index, q.question)">{{ q.question }}</button>
       </div>
     </div>
-    <div v-if="basicHTMLCSSQuestions.length > 0">
+    <div v-if="basicHTMLCSSQuestions && basicHTMLCSSQuestions.length > 0">
       <h2>Basic HTML & CSS Questions</h2>
-      <div v-for="q in basicHTMLCSSQuestions" :key="q.id">
-        <button @click="BasicHTMLandCSS(q.title)">{{ q.title }}</button>
+      <div v-for="(q, index) in basicHTMLCSSQuestions" :key="q.id">
+        <button @click="basicHTMLCSSQuestion(index, q.question)">{{ q.question }}</button>
       </div>
     </div>
+    <p v-if="basicHTMLCSSQuestions">{{ basicHTMLCSSQuestions?.data[index].question }}</p>
+    <button @click="index = index - 1">Previous Question</button>
+    <button @click="index = index + 1">Next Question</button>
   </div>
+  <section>
+    <div>
+      <p v-if="basicJSQuestions">{{ basicJSQuestions?.data[index].question }}</p>
+      <button @click="index = index - 1">Previous Question</button>
+      <button @click="index = index + 1">Next Question</button>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -31,25 +41,25 @@ export default {
   data() {
     return {
       questions: [],
-      basicJSQuestions: [],
-      basicHTMLCSSQuestions: []
+      basicJSQuestions: null,
+      basicHTMLCSSQuestions: null, // data property Komponente für API fragen
+      index: 0
     }
   },
+  created() {
+    this.getQuestions()
+  },
+
   methods: {
     async getQuestions() {
       // async function für Categorie
       try {
         const response = await fetch('http://localhost:3000/groups')
-
         if (!response.ok) {
           throw new Error('Failed to fetch questions')
         }
         const data = await response.json()
         this.questions = data
-
-        console.log('Basic Questions fetched:', data)
-
-        // Fetch die anderen API's nachdem erste API erfolgreich war.
         await this.fetchBasicHTMLCSSQuestions()
         await this.fetchBasicJSQuestions()
       } catch (error) {
@@ -62,39 +72,52 @@ export default {
         const basicHTMLCSSResponse = await fetch(
           'http://localhost:3000/quiz/collection?group=c76668d0-ce3a-48a7-acd5-0f54ad6818e1'
         )
-
         if (!basicHTMLCSSResponse.ok) {
           throw new Error('Failed to fetch Basic HTML & CSS questions')
         }
         const basicHTMLCSSData = await basicHTMLCSSResponse.json()
         this.basicHTMLCSSQuestions = basicHTMLCSSData
-
-        console.log('Basic HTML & CSS Questions fetched:', basicHTMLCSSData)
       } catch (error) {
         console.error('Error fetching Basic HTML & CSS questions:', error)
       }
     },
     async fetchBasicJSQuestions() {
-      // async function für JS category
+      // async function für JS categorie
       try {
         const basicJSResponse = await fetch(
           'http://localhost:3000/quiz/collection?group=c76668d0-ce3a-48a7-acd5-0f54ad6818e1&group=9d5ae045-ef9a-4068-bc6c-1b102bda5f55'
         )
-
         if (!basicJSResponse.ok) {
           throw new Error('Failed to fetch Basic JS questions')
         }
         const basicJSData = await basicJSResponse.json()
         this.basicJSQuestions = basicJSData
-
-        console.log('Basic JS Questions fetched:', basicJSData)
       } catch (error) {
         console.error('Error fetching Basic JS questions:', error)
       }
     },
-    showQuestion(title) {
-      // Zeige frage basierend auf title
+    showQuestion(index, title) {
+      this.currentQuestionIndex = index
+      this.currentQuestion = this.questions[index]
       console.log('Showing question:', title)
+    },
+    nextQuestion() {
+      if (this.currentQuestionIndex < this.questions.length - 1) {
+        this.currentQuestionIndex++
+        this.currentQuestion = this.questions[this.currentQuestionIndex]
+        console.log('Showing next question:', this.currentQuestion.title)
+      } else {
+        console.log('No more questions')
+      }
+    },
+    prevQuestion() {
+      if (this.currentQuestionIndex > 0) {
+        this.currentQuestionIndex--
+        this.currentQuestion = this.questions[this.currentQuestionIndex]
+        console.log('Showing previous question:', this.currentQuestion.title)
+      } else {
+        console.log('No previous questions')
+      }
     }
   }
 }
