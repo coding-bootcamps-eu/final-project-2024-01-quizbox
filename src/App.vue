@@ -1,7 +1,9 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link>
+    <router-link to="/limit">LimitQuiz</router-link>
     <router-link to="/category">Categories</router-link>
+    <router-link to="/quiz">QuizApp</router-link>
     <router-link to="/random">Random-Quiz</router-link>
   </nav>
   <router-view />

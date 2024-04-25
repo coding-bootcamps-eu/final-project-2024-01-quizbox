@@ -4,10 +4,13 @@
     <!-- Display a loading message when state.loading is true, otherwise progress -->
     <div v-if="state.loading">Loading...</div>
     <div v-else>
-      <div v-for="title in state.titles" :key="title.id">
-        <!--Select category/title-->
-        <button @click="selectTitle(title.id)">{{ title.title }}</button>
-      </div>
+      <!-- Dropdown menu for selecting category/title -->
+      <select v-model="selectedTitle" @change="selectTitle(selectedTitle)">
+        <option disabled value="">Please select a category</option>
+        <option v-for="title in state.titles" :key="title.id" :value="title.id">
+          {{ title.title }}
+        </option>
+      </select>
     </div>
     <hr v-if="!state.loading && state.questions.length > 0" />
     <div v-if="!state.loading && state.questions.length > 0">
@@ -17,10 +20,12 @@
       <div v-else>
         <!-- If currentQuestion is not null -->
         <div v-if="currentQuestion !== null">
+          <!-- Show the progress -->
+          <p>Question {{ currentQuestion + 1 }} of {{ state.questions.length }}</p>
           <!-- Show the current question -->
           <h2>{{ state.questions[currentQuestion].question }}</h2>
           <ul>
-            <!--display answers (clickable)-->
+            <!-- Display answers (clickable) -->
             <li v-for="answer in state.questions[currentQuestion].answers" :key="answer.id">
               <button @click="selectAnswer(state.questions[currentQuestion].id, answer.id)">
                 {{ answer.text }}
@@ -31,7 +36,6 @@
         <!-- If currentQuestion is null (Quiz completed) -->
         <div v-else>
           <h2>You have finished the quiz!</h2>
-          <!-- End-Bild -->
           <!-- Reset button -->
           <button @click="resetQuiz">Reset Quiz</button>
         </div>
